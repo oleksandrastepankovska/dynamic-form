@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { DynamicForm } from "./components/DynamicForm/DynamicForm";
+import { mockedFields } from "./mocks/mockedFields";
+import { useForm, FormProvider } from "react-hook-form";
+import { createGlobalStyle } from "styled-components";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const GlobalStyle = createGlobalStyle`
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins',sans-serif;
 }
+`;
+
+const App = () => {
+  const methods = useForm({ mode: "onChange" });
+  const handleSubmit = (data) => {
+    console.table(data);
+  };
+
+  return (
+    <FormProvider {...methods}>
+      <GlobalStyle />
+      <DynamicForm data={mockedFields} submit={handleSubmit} />
+    </FormProvider>
+  );
+};
 
 export default App;
