@@ -36,6 +36,10 @@ npm start
 
 This will start the development server. You can then view the app in your browser at http://localhost:3000.
 
+## Submitting the Form
+
+When you click the submit button, the form data will be logged to the console in a structured format. To view the form data, open the developer tools in your browser and navigate to the console tab.
+
 ## Running Tests
 
 To run tests, use the following command:
