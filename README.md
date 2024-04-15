@@ -30,9 +30,9 @@ This project is a dynamic form generator that creates form fields based on a sch
 
 To **start the app** locally, run the following command:
 
-    ```bash
-    npm start
-    ```
+```bash
+npm start
+```
 
 This will start the development server. You can then view the app in your browser at http://localhost:3000.
 
