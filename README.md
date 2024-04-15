@@ -47,6 +47,7 @@ To run tests, use the following command:
 ```bash
 npm test
 ```
+Press `a` to run all tests if needed.
 This will launch the test runner in interactive watch mode, allowing you to run and debug tests as needed.
 
 ## Customizing Form Fields
