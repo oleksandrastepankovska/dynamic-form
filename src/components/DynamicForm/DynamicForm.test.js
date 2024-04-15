@@ -60,12 +60,15 @@ describe("DynamicForm", () => {
     ],
   };
 
-  it("should render all the fields correctly", async () => {
+  beforeEach(() => {
     render(
       <FormProviderWrapper>
         <DynamicForm data={mockedFields} submit={onSubmitMock} />
       </FormProviderWrapper>,
     );
+  });
+
+  it("should render all the fields correctly", async () => {
     expect(await screen.findByLabelText("Email")).toHaveAttribute(
       "type",
       "text",
@@ -92,12 +95,7 @@ describe("DynamicForm", () => {
   });
 
   it("should display error based on pattern", async () => {
-    const { getByLabelText, getByRole } = render(
-      <FormProviderWrapper>
-        <DynamicForm data={mockedFields} submit={onSubmitMock} />
-      </FormProviderWrapper>,
-    );
-    const emailInput = getByLabelText("Email");
+    const emailInput = screen.getByLabelText("Email");
 
     await act(async () => {
       fireEvent.change(emailInput, {
@@ -107,16 +105,11 @@ describe("DynamicForm", () => {
       });
     });
 
-    expect(getByRole("alert")).toHaveTextContent("Invalid input");
+    expect(screen.getByRole("alert")).toHaveTextContent("Invalid input");
   });
 
   it("should display error based on min max rules", async () => {
-    const { getByLabelText, getByRole } = render(
-      <FormProviderWrapper>
-        <DynamicForm data={mockedFields} submit={onSubmitMock} />
-      </FormProviderWrapper>,
-    );
-    const ageInput = getByLabelText("Age");
+    const ageInput = screen.getByLabelText("Age");
 
     await act(async () => {
       fireEvent.change(ageInput, {
@@ -126,7 +119,7 @@ describe("DynamicForm", () => {
       });
     });
 
-    expect(getByRole("alert")).toHaveTextContent("Maximum value is 120");
+    expect(screen.getByRole("alert")).toHaveTextContent("Maximum value is 120");
 
     await act(async () => {
       fireEvent.change(ageInput, {
@@ -136,17 +129,11 @@ describe("DynamicForm", () => {
       });
     });
 
-    expect(getByRole("alert")).toHaveTextContent("Minimum value is 18");
+    expect(screen.getByRole("alert")).toHaveTextContent("Minimum value is 18");
   });
 
   it("should display required error if required: true", async () => {
-    const { getByLabelText, getByRole } = render(
-      <FormProviderWrapper>
-        <DynamicForm data={mockedFields} submit={onSubmitMock} />
-      </FormProviderWrapper>,
-    );
-
-    const ageInput = getByLabelText("Age");
+    const ageInput = screen.getByLabelText("Age");
 
     await act(async () => {
       fireEvent.change(ageInput, {
@@ -161,51 +148,36 @@ describe("DynamicForm", () => {
       });
     });
 
-    expect(getByRole("alert")).toHaveTextContent("This field is required");
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "This field is required",
+    );
   });
 
   it("should disable submit button if form is not valid", async () => {
-    const { getByRole } = render(
-      <FormProviderWrapper>
-        <DynamicForm data={mockedFields} submit={onSubmitMock} />
-      </FormProviderWrapper>,
-    );
-
-    const submitButton = getByRole("button", { name: "Submit" });
+    const submitButton = screen.getByRole("button", { name: "Submit" });
 
     expect(submitButton).toBeDisabled();
   });
 
   it("submit button should not be disabled if form is valid", async () => {
-    const mockedFields = {
-      fields: [
-        {
-          id: "simpleField",
-          type: "number",
-          label: "simpleField",
-          placeholder: "enter smth",
-          rules: { required: true },
-        },
-      ],
-    };
-    const { getByRole } = render(
-      <FormProviderWrapper>
-        <DynamicForm data={mockedFields} submit={onSubmitMock} />
-      </FormProviderWrapper>,
-    );
+    const ageInput = screen.getByLabelText("Age");
 
-    const simpleField = getByRole("spinbutton", { name: "simpleField" });
+    const emailInput = screen.getByLabelText("Email");
 
     await act(async () => {
-      fireEvent.change(simpleField, {
+      fireEvent.change(emailInput, {
         target: {
-          value: 0,
+          value: "oleksandra.st3@gmail.com",
         },
       });
-      fireEvent.blur(simpleField);
+      fireEvent.change(ageInput, {
+        target: {
+          value: 18,
+        },
+      });
     });
 
-    const submitButton = getByRole("button", { name: "Submit" });
+    const submitButton = screen.getByRole("button", { name: "Submit" });
 
     await waitFor(() => {
       expect(submitButton).not.toBeDisabled();
@@ -213,17 +185,11 @@ describe("DynamicForm", () => {
   });
 
   it("form is submitted with correct values", async () => {
-    const { getByRole, getByLabelText } = render(
-      <FormProviderWrapper>
-        <DynamicForm data={mockedFields} submit={onSubmitMock} />
-      </FormProviderWrapper>,
-    );
+    const ageInput = screen.getByLabelText("Age");
 
-    const ageInput = getByLabelText("Age");
+    const emailInput = screen.getByLabelText("Email");
 
-    const emailInput = getByLabelText("Email");
-
-    const submitButton = getByRole("button", { name: "Submit" });
+    const submitButton = screen.getByRole("button", { name: "Submit" });
 
     await act(async () => {
       fireEvent.change(emailInput, {
