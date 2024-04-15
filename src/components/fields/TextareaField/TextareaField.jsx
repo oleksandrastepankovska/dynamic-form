@@ -14,7 +14,10 @@ export const TextareaField = ({ field }) => {
 
   return (
     <S.Wrapper>
-      <S.Label htmlFor={id}>{label}</S.Label>
+      <S.LabelWrapper>
+        <S.Label htmlFor={id}>{label}</S.Label>
+        {rules?.required && <span style={{ color: "#5353ec" }}>*</span>}
+      </S.LabelWrapper>
       <S.Input
         type="textarea"
         id={id}

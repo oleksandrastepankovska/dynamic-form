@@ -15,7 +15,10 @@ export const RadioField = ({ field }) => {
 
   return (
     <S.Wrapper>
-      <S.Label htmlFor={id}>{label}</S.Label>
+      <S.LabelWrapper>
+        <S.Label htmlFor={id}>{label}</S.Label>
+        {rules?.required && <span style={{ color: "#5353ec" }}>*</span>}
+      </S.LabelWrapper>
       <div id={id}>
         {options.map((option, index) => (
           <S.RadioItem key={index}>

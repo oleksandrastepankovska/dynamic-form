@@ -74,4 +74,7 @@ export const S = {
       box-shadow: 0 0 0 2px rgba(155, 89, 182, 0.25);
     }
   `,
+  LabelWrapper: styled.div`
+    display: flex;
+  `,
 };

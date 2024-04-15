@@ -14,7 +14,10 @@ export const DropdownField = ({ field }) => {
 
   return (
     <S.Wrapper>
-      <S.Label htmlFor={id}>{label}</S.Label>
+      <S.LabelWrapper>
+        <S.Label htmlFor={id}>{label}</S.Label>
+        {rules?.required && <span style={{ color: "#5353ec" }}>*</span>}
+      </S.LabelWrapper>
       <S.Select
         id={id}
         {...register(label, fieldRules)}
